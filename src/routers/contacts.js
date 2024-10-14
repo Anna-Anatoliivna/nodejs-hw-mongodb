@@ -3,11 +3,12 @@ import {
   getContactsContoller,
   getContactContoller,
 } from '../controllers/contacts.js';
+import {ctrlWrapper} from '../utils/ctrlWrapper.js';
 
 const router = express.Router();
 
-router.get('/', getContactsContoller);
+router.get('/', ctrlWrapper(getContactsContoller));
 
-router.get('/:contactId', getContactContoller);
+router.get('/:contactId', ctrlWrapper(getContactContoller));
 
 export default router;
