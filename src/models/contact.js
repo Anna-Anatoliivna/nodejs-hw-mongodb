@@ -34,3 +34,10 @@ const contactsSchema = new Schema(
 );
 
 export const Contact = model('Contact', contactsSchema);
+
+// {
+// "name": "Liza Moor",
+// "phoneNumber": "(515)2345576",
+// "email": "liz@gmail.com",
+// "isFavourite": true
+// }
