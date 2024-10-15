@@ -2,6 +2,7 @@ import {
   getAllContacts,
   getContactById,
   createContact,
+  deleteContact,
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 
@@ -42,6 +43,15 @@ export async function createContactContoller(req, res) {
     message: 'Successfully created a contact!',
     data: result,
   });
-  // console.log({result});
-  
+}
+
+export async function deleteContactContoller(req, res) {
+  const { contactId } = req.params;
+  const result = await deleteContact(contactId);
+
+   if (!result) {
+     throw createHttpError(404, 'Contact not found');
+   }
+   res.status(204).send();
+  // console.log({ result });
 }
