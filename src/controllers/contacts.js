@@ -34,8 +34,6 @@ export async function createContactContoller(req, res) {
   const newContact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
-    email: req.body.email,
-    isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
   };
   const result = await createContact(newContact);
