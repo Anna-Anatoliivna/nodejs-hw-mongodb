@@ -8,6 +8,8 @@ import {
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { createContactSchema } from '../validation/contacts.js';
 
 
 const router = express.Router();
@@ -17,7 +19,12 @@ router.get('/', ctrlWrapper(getContactsContoller));
 
 router.get('/:contactId', isValidId, ctrlWrapper(getContactContoller));
 
-router.post('/', jsonParser, ctrlWrapper(createContactContoller));
+router.post(
+  '/',
+  jsonParser,
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactContoller),
+);
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactContoller));
 
