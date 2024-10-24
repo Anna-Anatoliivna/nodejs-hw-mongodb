@@ -6,19 +6,21 @@ import {
   deleteContactContoller,
   updateContactContoller,
 } from '../controllers/contacts.js';
-import {ctrlWrapper} from '../utils/ctrlWrapper.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { isValidId } from '../middlewares/isValidId.js';
+
 
 const router = express.Router();
 const jsonParser = express.json();
 
 router.get('/', ctrlWrapper(getContactsContoller));
 
-router.get('/:contactId', ctrlWrapper(getContactContoller));
+router.get('/:contactId', isValidId, ctrlWrapper(getContactContoller));
 
 router.post('/', jsonParser, ctrlWrapper(createContactContoller));
 
-router.delete('/:contactId', ctrlWrapper(deleteContactContoller));
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactContoller));
 
-router.patch('/:contactId', jsonParser, ctrlWrapper(updateContactContoller));
+router.patch('/:contactId', isValidId, jsonParser, ctrlWrapper(updateContactContoller));
 
 export default router;
