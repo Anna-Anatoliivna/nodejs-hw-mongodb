@@ -28,6 +28,12 @@ router.post(
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactContoller));
 
-router.patch('/:contactId', isValidId, jsonParser, ctrlWrapper(updateContactContoller));
+router.patch(
+  '/:contactId',
+  isValidId,
+  jsonParser,
+  validateBody(createContactSchema),
+  ctrlWrapper(updateContactContoller),
+);
 
 export default router;
