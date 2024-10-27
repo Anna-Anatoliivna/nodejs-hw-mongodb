@@ -9,7 +9,10 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { createContactSchema } from '../validation/contacts.js';
+import {
+  createContactSchema,
+  patchContactSchema,
+} from '../validation/contacts.js';
 
 
 const router = express.Router();
@@ -32,7 +35,7 @@ router.patch(
   '/:contactId',
   isValidId,
   jsonParser,
-  validateBody(createContactSchema),
+  validateBody(patchContactSchema),
   ctrlWrapper(updateContactContoller),
 );
 
