@@ -16,8 +16,3 @@ export const registerUserController = async (req, res) => {
 };
 
 
-// {
-//     "name": "Betina Wull",
-//     "email": "test@gmail.com",
-//     "password": "234ggnh"
-// }

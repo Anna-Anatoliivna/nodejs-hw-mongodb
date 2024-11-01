@@ -13,8 +13,6 @@ const PORT = Number(env('PORT', '3000'));
 export const setupServer = () => {
   const app = express();
 
-  app.use('/auth', authRouter);
-  app.use('/contacts', contactRouters);
   app.use(express.json());
   app.use(cors());
   app.use(
@@ -24,7 +22,8 @@ export const setupServer = () => {
       },
     }),
   );
-
+  app.use('/auth', authRouter);
+  app.use('/contacts', contactRouters);
   app.use(notFoundHandler);
   app.use(errorHandler);
 
