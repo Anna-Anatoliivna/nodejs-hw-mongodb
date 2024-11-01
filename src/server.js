@@ -6,12 +6,14 @@ import { env } from './utils/env.js';
 import contactRouters from '../src/routers/contacts.js';
 import { notFoundHandler } from '../src/middlewares/notFoundHandler.js';
 import { errorHandler } from '../src/middlewares/errorHandler.js';
+import authRouter from './routers/auth.js';
 
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
   const app = express();
 
+  app.use('/auth', authRouter);
   app.use('/contacts', contactRouters);
   app.use(express.json());
   app.use(cors());

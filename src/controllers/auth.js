@@ -1,0 +1,23 @@
+import createHttpError from 'http-errors';
+import { findUserByEmail, createUser } from '../services/auth.js';
+
+export const registerUserController = async (req, res) => {
+  const { email, name } = req.body;
+  const user = await findUserByEmail(email);
+  if (user) {
+    throw createHttpError(409, 'Email in use');
+  }
+  await createUser(req.body);
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully registered a user!',
+    data: { name, email },
+  });
+};
+
+
+// {
+//     "name": "Betina Wull",
+//     "email": "test@gmail.com",
+//     "password": "234ggnh"
+// }
