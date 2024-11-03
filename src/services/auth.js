@@ -18,3 +18,8 @@ export const createActiveSession = async (userId) => {
   const session = createSession();
   return SessionsCollection.create({ ...session, userId });
 };
+
+export const findSessionByToken = (token) =>
+  SessionsCollection.findOne({ accessToken: token });
+
+export const findUserById = (userId) => UsersCollection.findById(userId);
