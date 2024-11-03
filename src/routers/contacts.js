@@ -13,13 +13,13 @@ import {
   createContactSchema,
   patchContactSchema,
 } from '../validation/contacts.js';
-import { checkToken } from '../middlewares/checkToken.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 
 const router = express.Router();
 const jsonParser = express.json();
 
-router.use(checkToken);
+router.use(authenticate);
 router.get('/', ctrlWrapper(getContactsContoller));
 
 router.get('/:contactId', isValidId, ctrlWrapper(getContactContoller));

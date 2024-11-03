@@ -3,9 +3,12 @@ import {
   findUserByEmail,
   createUser,
   createActiveSession,
+  logoutUser,
+  refreshSession,
 } from '../services/auth.js';
 import bcrypt from 'bcrypt';
 import { setupCookies } from '../utils/setupCookies.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 export const registerUserController = async (req, res) => {
   const { email, name } = req.body;
@@ -36,6 +39,33 @@ export const loginUserController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Successfully logged in an user!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+};
+
+export const logoutUserController = async (req, res) => {
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId, req.cookies.refreshToken);
+  }
+
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
+};
+
+export const refreshSessionController = async (req, res) => {
+  const session = await refreshSession({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+  authenticate(res, session);
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully refreshed a session!',
     data: {
       accessToken: session.accessToken,
     },

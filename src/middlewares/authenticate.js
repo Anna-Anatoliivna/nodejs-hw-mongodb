@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { findSessionByToken, findUserById } from '../services/auth.js';
 
-export const checkToken = async (req, res, next) => {
+export const authenticate = async (req, res, next) => {
   const authHeader = req.get('Authorization');
 
   if (!authHeader) {

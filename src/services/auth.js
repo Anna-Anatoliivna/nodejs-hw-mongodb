@@ -2,6 +2,7 @@ import { UsersCollection } from '../models/user.js';
 import { SessionsCollection } from '../models/session.js';
 import bcrypt from 'bcrypt';
 import { createSession } from '../utils/createSession.js';
+import createHttpError from 'http-errors';
 
 export const findUserByEmail = (email) => UsersCollection.findOne({ email });
 export const createUser = async (userData) => {
@@ -23,3 +24,30 @@ export const findSessionByToken = (token) =>
   SessionsCollection.findOne({ accessToken: token });
 
 export const findUserById = (userId) => UsersCollection.findById(userId);
+
+export const logoutUser = async (sessionId, refreshToken) => {
+  await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
+};
+
+export const refreshSession = async (sessionId, refreshToken) => {
+  const session = await SessionsCollection.findOne({
+    _id: sessionId,
+    refreshToken,
+  });
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
+  }
+  const isSessionTokenExpired =
+    new Date() > new Date(session.refreshTokenValidUntil);
+
+  if (isSessionTokenExpired) {
+    throw createHttpError(401, 'Session token expired');
+  }
+  const user = await findUserById(session.userId);
+  if (!user) {
+    throw createHttpError(401, 'User not found');
+  }
+  await SessionsCollection.findOneAndDelete({ _id: sessionId });
+  const newSession = createSession();
+  return await SessionsCollection.create({ userId: user._id, ...newSession });
+};
