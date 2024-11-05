@@ -60,7 +60,7 @@ export async function createContactContoller(req, res) {
 }
 
 export async function deleteContactContoller(req, res) {
-    const { _id: userId } = req.user;
+  const { _id: userId } = req.user;
   const { contactId } = req.params;
   const result = await deleteContact(contactId, userId);
 
