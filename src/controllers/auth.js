@@ -8,7 +8,6 @@ import {
 } from '../services/auth.js';
 import bcrypt from 'bcrypt';
 import { setupCookies } from '../utils/setupCookies.js';
-import { authenticate } from '../middlewares/authenticate.js';
 
 export const registerUserController = async (req, res) => {
   const { email, name } = req.body;
@@ -61,7 +60,7 @@ export const refreshSessionController = async (req, res) => {
     sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
   });
-  authenticate(res, session);
+  setupCookies(res, session);
 
   res.status(200).json({
     status: 200,
