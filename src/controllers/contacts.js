@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import {
   getAllContacts,
   getContactById,
@@ -8,6 +10,7 @@ import {
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export async function getContactsContoller(req, res) {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -43,6 +46,21 @@ export async function getContactContoller(req, res) {
 }
 
 export async function createContactContoller(req, res) {
+  let photo = null;
+  if (typeof req.file !== 'undefined') {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      const result = await saveFileToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+      photo = result.secure_url;
+    } else {
+      await fs.rename(
+        req.file.path,
+        path.resolve('src', 'public/photos', req.file.filename),
+      );
+      photo = `http://localhost:3000/photos/${req.file.filename}`;
+    }
+  }
+
   const { _id: userId } = req.user;
   const newContact = {
     name: req.body.name,
@@ -50,6 +68,7 @@ export async function createContactContoller(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    photo,
   };
   const result = await createContact(newContact, userId);
   res.status(201).json({
