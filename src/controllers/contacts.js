@@ -90,10 +90,25 @@ export async function deleteContactContoller(req, res) {
 }
 
 export async function updateContactContoller(req, res) {
+  let photo = null;
+
+  if (typeof req.file !== 'undefined') {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      const result = await saveFileToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+      photo = result.secure_url;
+    } else {
+      await fs.rename(
+        req.file.path,
+        path.resolve('src', 'public/photos', req.file.filename),
+      );
+      photo = `http://localhost:3000/photos/${req.file.filename}`;
+    }
+  }
   const { _id: userId } = req.user;
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body, userId);
+  const result = await updateContact(contactId, req.body, photo, userId);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
