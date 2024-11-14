@@ -90,7 +90,7 @@ export async function deleteContactContoller(req, res) {
 }
 
 export async function updateContactContoller(req, res) {
-  let photo = null;
+  let photo;
 
   if (typeof req.file !== 'undefined') {
     if (process.env.ENABLE_CLOUDINARY === 'true') {
@@ -108,7 +108,7 @@ export async function updateContactContoller(req, res) {
   const { _id: userId } = req.user;
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body, userId, photo);
+  const result = await updateContact(contactId, {...req.body, photo}, userId);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
