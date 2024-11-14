@@ -108,7 +108,7 @@ export async function updateContactContoller(req, res) {
   const { _id: userId } = req.user;
   const { contactId } = req.params;
 
-  const result = await updateContact(contactId, req.body, photo, userId);
+  const result = await updateContact(contactId, req.body, userId, photo);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
