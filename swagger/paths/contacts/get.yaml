@@ -33,7 +33,7 @@ parameters:
     schema:
       type: number
       example: 4
-   - in: query
+  - in: query
     name: contactType
     schema:
       type: string
@@ -67,7 +67,7 @@ responses:
                 - totalPages
                 - hasNextPage
                 - hasPreviousPage
-               properties:
+              properties:
                 data:
                   type: array
                   items:
