@@ -339,7 +339,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Contact not fouund",
+            "description": "Contact not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -356,7 +356,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contact not fouund"
+                      "example": "Contact not found"
                     },
                     "data": {
                       "type": "object",

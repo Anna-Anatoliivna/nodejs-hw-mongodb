@@ -36,7 +36,7 @@ responses:
   '401':
     $ref: '../../../components/responses/401.yaml'
   '404':
-    description: 'Contact not fouund'
+    description: 'Contact not found'
     content:
       application/json:
         schema:
@@ -51,7 +51,7 @@ responses:
               example: 404
             message:
               type: string
-              example: Contact not fouund
+              example: Contact not found
             data:
               type: object
               example: {}

@@ -47,7 +47,7 @@ responses:
               example: 404
             message:
               type: string
-              example: Contact not fouund
+              example: Contact not found
             data:
               type: object
               example: {}
