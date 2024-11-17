@@ -17,12 +17,6 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
-          - email
-          - contactType
-          - photo
         properties:
           name:
             description: "Contact's name"
@@ -44,10 +38,6 @@ requestBody:
             description: 'Type of contact'
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: "User's id"
-            type: string
-            example: 65e4decdd286b30065d54af9
           photo:
             description: "Link to contact's photo"
             type: string

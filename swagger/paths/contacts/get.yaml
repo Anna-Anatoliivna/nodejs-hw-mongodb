@@ -29,11 +29,6 @@ parameters:
       enum: ['asc', 'desc']
       example: 'asc'
   - in: query
-    name: minAvgMark
-    schema:
-      type: number
-      example: 4
-  - in: query
     name: contactType
     schema:
       type: string
@@ -92,4 +87,24 @@ responses:
                   example: true
   '401':
     $ref: '../../components/responses/401.yaml'
+  '404':
+    description: 'Contact not found'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Contact not found
+            data:
+              type: object
+              example: {}
 
