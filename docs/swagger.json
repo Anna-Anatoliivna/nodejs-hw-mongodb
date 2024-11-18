@@ -78,19 +78,6 @@
               ],
               "example": "asc"
             }
-          },
-          {
-            "in": "query",
-            "name": "contactType",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "work",
-                "home",
-                "personal"
-              ],
-              "example": "work"
-            }
           }
         ],
         "responses": {
@@ -526,10 +513,8 @@
                     ]
                   },
                   "photo": {
-                    "description": "Link to contact's photo",
+                    "description": "Contact's photo",
                     "type": "string",
-                    "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png",
-                    "default": null,
                     "format": "binary"
                   }
                 }
@@ -617,11 +602,8 @@
           "_id",
           "name",
           "phoneNumber",
-          "email",
-          "isFavourite",
           "contactType",
-          "userId",
-          "photo"
+          "userId"
         ],
         "properties": {
           "_id": {
